@@ -1,0 +1,46 @@
+1.Explain HDFS federation and High availability
+
+HDFS Federation:
+                        *In HDFS Federation, there are multiple Namenodes.
+                        *Each node will store metadata and block mapping  of files and directories.
+                        *Blocks of files belonging to a Namespace is called a blockpool.
+                        *HDFS federation improves the existing HDFS architecture through  clear seperation of namespace and storage.
+                        *The list of sub-directories managed by a Namenode is called namespace volume.
+                        *In HDFS federation we have horizontal scalability of name service.
+                        *Each datanode registers with all the namenode in the cluster.
+                        *Each name node is responsible for two major tasks Namespace management and block management.
+                        *Its advantages are scalability,Single view,Performance and isolation
+
+
+High Availability:
+                       * It enables you to run redundant name nodes in the same cluster.
+                       *This eliminates name node as a potential  single point failure in ah HDFS cluster.
+                       *The vital role of high availability is to provide big data applications 24/7 availability.
+                       *There are two hadoop name nodes which provides these high availability.
+                       *The one name node is for active configuration and other namenode is for passive configuration
+                       *It provides features such as  serviceability,Reliability and availability.
+                       *It makes Data  safely protected in HDFS
+                       *It automatically recovers failed nodes.
+                       *It provides extra backup RPCs for secondary region replicas
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.How HDFS handles failures while writing data
+
+*The pipeline is closed and packets in ack queue are added to front of data
+*The current nodes is given new identity,wwhich communicate to namenode.
+*The failed data nodes is removed from pipeline and newpipeline is constructed from
+two good data nodes.
+*The remainder of block's data is written to good data node in pipeline.
+*The name node notice the block is under-replicated and it arranges for further replica
+to be created on another node
+*As long as dfs.namenode.replication.min replicas are written ,the write will succeed
+*The blocks will be asynchronously replicated across the cluster until target replication factor is reached.
+*To handle failure in HDFS write the blocks are replicated many times and stored on the data nodes.
+*This process is called replication factor which is used to determine the number of data  nodes on the pipeline.
+*There are basically three recovery systems:
+      -Pipeline recovery
+      -Block recvovery
+      -Lease recovery
+*In pipeline recovery the data written on sequential blocks and blocks are splitted into 
+packets and submitted on the data node.
+
